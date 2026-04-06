@@ -21,12 +21,11 @@ export default function CheckoutPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleCheckout = (e) => {
+const handleCheckout = (e) => {
     e.preventDefault();
     setLoading(true);
 
-    // WhatsApp Message එක හදමු
-    const whatsappNumber = "94762183549"; // ඔයාගේ WhatsApp Number එක මෙතනට දාන්න (94 වලින් පටන් ගන්න)
+    const whatsappNumber = "94762183549"; 
     
     let message = `*NEW ORDER - SUMA AUTOMATION*%0A%0A`;
     message += `*Customer Details:*%0A`;
@@ -42,14 +41,14 @@ export default function CheckoutPage() {
     message += `%0A*Total Amount: LKR ${subtotal.toLocaleString()}*%0A%0A`;
     message += `_I will send the bank slip shortly._`;
 
-    // WhatsApp එකට Redirect කරනවා
-    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
+    // මෙතනදී api.whatsapp.com පාවිච්චි කිරීම වඩාත් සාර්ථකයි App එක open වෙන්න
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`;
     
+    // වැදගත්: window.open වෙනුවට window.location.href පාවිච්චි කරන්න
     setTimeout(() => {
-      window.open(whatsappUrl, "_blank");
-      clearCart(); // Order එක යැව්වට පස්සේ Cart එක clear කරනවා
-      router.push("/"); // මුල් පිටුවට යනවා
-    }, 1000);
+      clearCart(); 
+      window.location.href = whatsappUrl; 
+    }, 500);
   };
 
   if (cart.length === 0) {
