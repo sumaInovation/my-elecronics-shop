@@ -15,7 +15,7 @@ export default function Navbar() {
           <div className="bg-blue-600 p-1.5 rounded-xl text-white shadow-lg shadow-blue-200">
             <Smartphone size={20} />
           </div>
-          <span>SUMA<span className="text-blue-600">AUTOMATION</span></span>
+          <span>TECH<span className="text-blue-600">HUB</span></span>
         </Link>
 
         {/* Desktop Links */}
