@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
-import { Landmark, Send, CheckCircle2, QrCode, ShoppingBag, MessageCircle } from "lucide-react";
+import { Landmark, Send, CheckCircle2, QrCode, ShoppingBag, MessageCircle,ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react"; 
 import { createClient } from "@supabase/supabase-js";
@@ -77,36 +77,68 @@ export default function CheckoutPage() {
     window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`, "_blank");
   };
 
-  // Order Success Screen
+ // Order Success Screen (Full Screen & Clear Instructions)
   if (orderSuccess) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
-        <div className="max-w-md w-full bg-white p-10 rounded-[3.5rem] shadow-xl border border-slate-100 text-center">
-          <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 size={40} />
-          </div>
-          <h2 className="text-3xl font-black uppercase italic tracking-tighter mb-2">Order Placed!</h2>
-          <p className="text-slate-500 text-xs font-bold uppercase tracking-widest mb-8">Order ID: #{lastOrderId.slice(0, 8)}</p>
+      <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4 md:p-10 overflow-y-auto">
+        <div className="max-w-2xl w-full bg-slate-50 p-8 md:p-12 rounded-[3rem] border border-slate-100 text-center shadow-2xl">
           
-          <div className="space-y-4">
+          {/* Success Header */}
+          <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100 animate-bounce-short">
+            <CheckCircle2 size={48} />
+          </div>
+          
+          <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter text-slate-900 mb-2">
+            Order <span className="text-green-600">Confirmed!</span>
+          </h2>
+          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">
+            Reference ID: <span className="text-slate-900">#{lastOrderId.slice(0, 8)}</span>
+          </p>
+
+          {/* --- CLEAR STEP-BY-STEP INSTRUCTIONS --- */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 01</span>
+              <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Transfer Funds</p>
+              <p className="text-[11px] font-bold text-slate-900 leading-tight">Transfer the total amount to our Bank Account.</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
+              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 02</span>
+              <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Take a Photo</p>
+              <p className="text-[11px] font-bold text-slate-900 leading-tight">Take a clear photo,pdf or screenshot of the Bank Slip.</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
+  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 03</span>
+  <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Send to Us</p>
+  <p className="text-[11px] font-bold text-slate-900 leading-tight">
+    Send your Bank Slip via <span className="text-green-600">WhatsApp</span> or 
+    Email to <span className="text-blue-600">sumaautomation@gmail.com</span>
+  </p>
+</div>
+
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
             <button 
               onClick={sendWhatsApp}
-              className="w-full bg-[#25D366] text-white py-5 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 hover:opacity-90 transition-all"
+              className="w-full md:w-auto min-w-[240px] bg-[#25D366] text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-lg shadow-green-100"
             >
-              <MessageCircle size={18} /> Send via WhatsApp
+              <MessageCircle size={20} fill="currentColor" /> Submit via WhatsApp
             </button>
             
             <button 
               onClick={() => router.push("/account")}
-              className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-3 hover:bg-blue-600 transition-all"
+              className="w-full md:w-auto min-w-[240px] bg-slate-900 text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-lg shadow-slate-200"
             >
-              <ShoppingBag size={18} /> View My Orders
+              <ShoppingBag size={18} /> Order History
             </button>
           </div>
 
-          <p className="mt-8 text-[9px] text-slate-400 font-bold uppercase leading-relaxed">
-            Please upload your bank slip to our WhatsApp or email <br/> 
-            <span className="text-slate-900">sumaautomation@gmail.com</span>
+          <p className="mt-10 text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
+             <ShieldCheck size={14} className="text-blue-500"/> Our team will verify and ship your items within 24 hours.
           </p>
         </div>
       </div>
@@ -177,36 +209,53 @@ export default function CheckoutPage() {
                </div>
             </div>
           </div>
+{/* Order Summary */}
+<div className="lg:sticky lg:top-24 space-y-6">
+  <div className="bg-slate-900 text-white p-8 md:p-10 rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl relative overflow-hidden">
+    {/* Background Glow */}
+    <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600 blur-[100px] opacity-20 pointer-events-none"></div>
 
-          {/* Order Summary */}
-          <div className="lg:sticky lg:top-24 space-y-6">
-            <div className="bg-slate-900 text-white p-10 rounded-[3.5rem] shadow-2xl">
-              <h2 className="text-xl font-black uppercase italic tracking-widest mb-10 border-b border-slate-800 pb-6">Your Order</h2>
-              
-              <div className="max-h-64 overflow-y-auto mb-10 space-y-6 pr-4 custom-scrollbar">
-                {cart.map((item) => (
-                  <div key={item.id} className="flex justify-between items-center text-xs font-black uppercase italic">
-                    <span>{item.quantity}x {item.Name}</span>
-                    <span className="text-blue-400">LKR {(item.Price * item.quantity).toLocaleString()}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex justify-between items-end border-t border-slate-800 pt-8">
-                <span className="text-[10px] font-black uppercase text-slate-500">Total Payable</span>
-                <span className="text-4xl font-black tracking-tighter italic">LKR {subtotal.toLocaleString()}</span>
-              </div>
-
-              <button 
-                form="checkout-form"
-                type="submit"
-                disabled={loading}
-                className="w-full mt-10 bg-blue-600 text-white py-6 rounded-[2rem] font-black uppercase text-[11px] tracking-[0.2em] hover:bg-white hover:text-slate-900 transition-all active:scale-95 disabled:opacity-50"
-              >
-                {loading ? "Processing..." : "Complete Checkout"}
-              </button>
-            </div>
+    <h2 className="text-xl font-black uppercase italic tracking-widest mb-10 border-b border-slate-800 pb-6 flex items-center justify-between">
+      Your Order <span className="text-[10px] text-slate-500 not-italic">{cart.length} Items</span>
+    </h2>
+    
+    {/* Product List - Better spacing */}
+    <div className="max-h-64 overflow-y-auto mb-10 space-y-4 pr-2 custom-scrollbar">
+      {cart.map((item) => (
+        <div key={item.id} className="flex justify-between items-start gap-4">
+          <div className="flex-1">
+            <p className="text-[10px] font-black uppercase italic leading-tight text-slate-300">
+              {item.quantity}x {item.Name}
+            </p>
           </div>
+          <span className="text-[10px] font-black text-blue-400 whitespace-nowrap">
+            LKR {(item.Price * item.quantity).toLocaleString()}
+          </span>
+        </div>
+      ))}
+    </div>
+
+    {/* Price Section - Fixed Line Issue */}
+    <div className="border-t border-slate-800 pt-8">
+      <p className="text-[9px] font-black uppercase text-slate-500 mb-1 tracking-widest">Total Payable Amount</p>
+      <div className="flex items-baseline justify-between gap-2">
+        <span className="text-sm font-black text-blue-500 italic">LKR</span>
+        <span className="text-3xl md:text-5xl font-black tracking-[ -0.05em] italic leading-none">
+          {subtotal.toLocaleString()}
+        </span>
+      </div>
+    </div>
+
+    <button 
+      form="checkout-form"
+      type="submit"
+      disabled={loading}
+      className="w-full mt-10 bg-blue-600 text-white py-6 rounded-2xl md:rounded-[2rem] font-black uppercase text-[11px] tracking-[0.2em] hover:bg-white hover:text-slate-900 transition-all active:scale-95 disabled:opacity-50 shadow-xl shadow-blue-900/20"
+    >
+      {loading ? "Processing..." : "Complete Checkout"}
+    </button>
+  </div>
+</div>
         </div>
       </div>
     </div>
