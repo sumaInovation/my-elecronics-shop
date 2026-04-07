@@ -84,13 +84,15 @@ export default function ProductsPage() {
 
           <div className="relative w-full md:w-[400px]">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
-            <input 
-              type="text" 
-              placeholder="SEARCH SKU OR NAME..." 
-              className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 pl-14 pr-6 text-[10px] font-bold uppercase tracking-widest focus:border-blue-600 focus:bg-white transition-all outline-none"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+          <input 
+  type="text" 
+  placeholder="SEARCH SKU OR NAME..." 
+  /* මෙතන text-[16px] අනිවාර්යයෙන්ම දාන්න auto-zoom නැති කරන්න */
+  /* md:text-[10px] දාලා desktop එකේදී ආයෙත් කුඩා කරන්න */
+  className="w-full bg-slate-50 border border-slate-100 rounded-2xl py-4 pl-14 pr-6 text-[16px] md:text-[10px] font-bold uppercase tracking-widest focus:border-blue-600 focus:bg-white transition-all outline-none"
+  value={searchQuery}
+  onChange={(e) => setSearchQuery(e.target.value)}
+/>
           </div>
         </div>
 
