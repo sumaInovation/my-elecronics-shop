@@ -71,12 +71,16 @@ export default function ProductsPage() {
         
         {/* Header & Search */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
-          <div className="space-y-2 text-center md:text-left">
-            <h1 className="text-5xl md:text-7xl font-black uppercase italic tracking-tighter text-slate-900 leading-none">
-              GEAR <span className="text-blue-600">HUB</span>
-            </h1>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Inventory Status: Online</p>
-          </div>
+         <div className="hidden md:block space-y-2 text-left">
+  {/* md:block කියන්නේ desktop එකේ පේනවා, hidden කියන්නේ mobile එකේ හංගනවා */}
+  <h1 className="text-4xl lg:text-5xl font-black uppercase italic tracking-tighter text-slate-900 leading-none">
+    {/* මෙතන text-4xl සහ text-5xl දාලා font size එක කලින්ට වඩා අඩු කළා */}
+    GEAR <span className="text-blue-600">HUB</span>
+  </h1>
+  <p className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">
+    Inventory Status: Online
+  </p>
+</div>
 
           <div className="relative w-full md:w-[400px]">
             <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300" size={18} />
@@ -119,84 +123,83 @@ export default function ProductsPage() {
            </button>
         </div>
 
-      {/* Product Grid */}
-<div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+{/* Product Grid */}
+<div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
   {filteredProducts.map((p) => {
-    // Discount එකක් තියෙනවා නම් පරණ මිල (Compare Price) ගණනය කිරීම
     const hasOffer = p.offers > 0;
     const originalPrice = hasOffer ? p.Price / (1 - p.offers / 100) : null;
 
     return (
-      <div key={p.id} className="group flex flex-col bg-white rounded-[2.5rem] border border-slate-50 p-3 md:p-5 hover:border-blue-100 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 relative">
+      <div key={p.id} className="group flex flex-col bg-white rounded-[1.5rem] md:rounded-[2.5rem] border border-slate-50 p-2 md:p-5 hover:border-blue-100 hover:shadow-xl transition-all duration-500 relative">
         
-        {/* --- OFFERS BADGE --- */}
+        {/* OFFERS BADGE - Mobile එකේදී පොඩ්ඩක් කුඩා කළා */}
         {hasOffer && (
-          <div className="absolute top-6 left-6 z-10 bg-red-500 text-white text-[9px] font-black px-3 py-1.5 rounded-full uppercase italic shadow-lg shadow-red-200 animate-bounce-short">
-            SAVE {p.offers}%
+          <div className="absolute top-3 left-3 md:top-6 md:left-6 z-10 bg-red-500 text-white text-[7px] md:text-[9px] font-black px-2 py-1 md:px-3 md:py-1.5 rounded-full uppercase italic shadow-lg">
+            -{p.offers}%
           </div>
         )}
 
-        {/* Product Image Area */}
-        <Link href={`/products/${p.id}`} className="block relative aspect-square bg-slate-50 rounded-[2rem] overflow-hidden mb-4">
+        {/* Product Image Area - Aspect ratio එකෙන් height එක control කරනවා */}
+        <Link href={`/products/${p.id}`} className="block relative aspect-square bg-slate-50 rounded-[1.2rem] md:rounded-[2rem] overflow-hidden mb-3">
           <img 
             src={p.image_url} 
-            className="w-full h-full object-contain p-6 md:p-10 group-hover:scale-110 transition-transform duration-700" 
+            className="w-full h-full object-contain p-4 md:p-8 group-hover:scale-105 transition-transform duration-500" 
             alt={p.Name} 
           />
         </Link>
+{/* Product Info Section */}
+<div className="flex flex-col flex-1 px-1">
+  <div className="flex justify-between items-start mb-1">
+    <span className="text-[7px] md:text-[8px] font-black text-blue-600 uppercase tracking-wider">
+      {p.category}
+    </span>
+    <div className="flex items-center gap-0.5 bg-slate-50 px-1.5 py-0.5 rounded-md">
+      <Star size={8} fill="#EAB308" className="text-yellow-500" />
+      <span className="text-[9px] font-black text-slate-700">{p.rating || "5.0"}</span>
+    </div>
+  </div>
+  
+  <Link href={`/products/${p.id}`}>
+    <h3 className="text-[10px] md:text-sm font-bold text-slate-900 uppercase italic line-clamp-2 h-7 md:h-10 leading-tight mb-1 group-hover:text-blue-600 transition-colors">
+      {p.Name}
+    </h3>
+  </Link>
 
-        {/* Product Info */}
-        <div className="space-y-2 px-2 flex-1">
-          <div className="flex justify-between items-center">
-            <span className="text-[8px] font-black text-blue-600 uppercase tracking-[0.2em]">{p.category}</span>
-            
-            {/* --- REVIEW RATING --- */}
-            <div className="flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-lg">
-              <Star size={10} fill="#EAB308" className="text-yellow-500" />
-              <span className="text-[10px] font-black text-slate-700">{p.rating || "5.0"}</span>
-              <span className="text-[8px] text-slate-400 font-bold">(12)</span>
-            </div>
-          </div>
-          
-          <Link href={`/products/${p.id}`}>
-            <h3 className="text-[11px] md:text-sm font-black text-slate-900 uppercase italic line-clamp-2 h-10 leading-tight group-hover:text-blue-600 transition-colors">
-              {p.Name}
-            </h3>
-          </Link>
-          
-          {/* --- PRICE SECTION (With Compare Price) --- */}
-          <div className="pt-2">
-            <div className="flex items-center gap-2">
-              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter italic leading-none">
-                LKR {p.Price?.toLocaleString()}
-              </p>
-            </div>
-            {hasOffer && (
-              <p className="text-[10px] font-bold text-slate-400 line-through mt-1">
-                LKR {originalPrice?.toLocaleString()}
-              </p>
-            )}
-          </div>
-          
-          <p className="text-[8px] font-bold text-slate-300 uppercase tracking-widest mt-2 border-t pt-2 italic">
-            SKU: {p.SKU || "N/A"}
-          </p>
-        </div>
+  {/* --- SKU DISPLAY --- */}
+  <div className="mb-2">
+    <span className="text-[7px] md:text-[8px] font-bold text-slate-400 uppercase tracking-widest bg-slate-50 px-2 py-0.5 rounded-full border border-slate-100">
+      SKU: {p.SKU || "000"}
+    </span>
+  </div>
+  
+  <div className="mt-auto">
+    <div className="flex flex-wrap items-baseline gap-1">
+      <p className="text-sm md:text-xl font-black text-slate-900 italic leading-none">
+        LKR {p.Price?.toLocaleString()}
+      </p>
+      {hasOffer && (
+        <p className="text-[8px] md:text-[10px] font-bold text-slate-400 line-through">
+          {originalPrice?.toLocaleString()}
+        </p>
+      )}
+    </div>
+  </div>
+</div>
 
-        {/* Action Buttons */}
-        <div className="mt-6 flex flex-col gap-2">
+        {/* Action Buttons - Mobile වලදී Height එක හොඳටම අඩු කළා */}
+        <div className="mt-3 flex flex-col gap-1.5">
           <button 
             onClick={(e) => { e.preventDefault(); addToCart(p); router.push("/cart"); }} 
-            className="w-full bg-blue-600 text-white py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 hover:bg-slate-900 transition-all active:scale-95 shadow-lg shadow-blue-100"
+            className="w-full bg-blue-600 text-white py-2.5 md:py-4 rounded-xl md:rounded-2xl font-black uppercase text-[8px] md:text-[10px] tracking-widest flex items-center justify-center gap-2 hover:bg-slate-900 transition-all active:scale-95 shadow-md"
           >
-            <Zap size={14} fill="currentColor" /> Buy Now
+            <Zap size={12} className="md:w-3.5" fill="currentColor" /> Buy Now
           </button>
           
           <button 
             onClick={(e) => { e.preventDefault(); addToCart(p); }} 
-            className="w-full bg-slate-50 text-slate-900 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 hover:bg-slate-200 transition-all active:scale-95 border border-slate-100"
+            className="w-full bg-slate-50 text-slate-900 py-2.5 md:py-4 rounded-xl md:rounded-2xl font-black uppercase text-[8px] md:text-[10px] tracking-widest flex items-center justify-center gap-2 hover:bg-slate-200 transition-all border border-slate-100"
           >
-            <ShoppingBag size={14} /> Add to Cart
+            <ShoppingBag size={12} className="md:w-3.5" /> Add To Cart
           </button>
         </div>
       </div>
