@@ -77,73 +77,87 @@ export default function CheckoutPage() {
     window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${message}`, "_blank");
   };
 
- // Order Success Screen (Full Screen & Clear Instructions)
-  if (orderSuccess) {
-    return (
-      <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4 md:p-10 overflow-y-auto">
-        <div className="max-w-2xl w-full bg-slate-50 p-8 md:p-12 rounded-[3rem] border border-slate-100 text-center shadow-2xl">
-          
-        {/* Success Header - Mobile එකේදී Hide කරලා Laptop එකේදී විතරක් පෙන්වයි */}
-<div className="hidden md:flex w-24 h-24 bg-green-500 text-white rounded-full items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100 animate-bounce-short">
-  <CheckCircle2 size={48} />
-</div>
-          
-          <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter text-slate-900 mb-2">
-            Order <span className="text-green-600">Confirmed!</span>
-          </h2>
-          <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">
-            Reference ID: <span className="text-slate-900">#{lastOrderId.slice(0, 8)}</span>
-          </p>
+    // Order Success Screen (Full Screen & Clear Instructions)
+if (orderSuccess) {
+  return (
+    <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4 md:p-10 overflow-y-auto">
+      <div className="max-w-3xl w-full bg-slate-50 p-6 md:p-12 rounded-[2.5rem] md:rounded-[4rem] border border-slate-100 text-center shadow-2xl relative">
+        
+        {/* Success Header - Hidden on Mobile */}
+        <div className="hidden md:flex w-20 h-20 bg-green-500 text-white rounded-full items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100 animate-bounce-short">
+          <CheckCircle2 size={40} />
+        </div>
+        
+        <h2 className="text-3xl md:text-5xl font-black uppercase italic tracking-tighter text-slate-900 mb-1">
+          Order <span className="text-green-600">Confirmed!</span>
+        </h2>
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">
+          Reference ID: <span className="text-slate-900">#{lastOrderId.slice(0, 8)}</span>
+        </p>
 
-          {/* --- CLEAR STEP-BY-STEP INSTRUCTIONS --- */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 01</span>
-              <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Transfer Funds</p>
-              <p className="text-[11px] font-bold text-slate-900 leading-tight">Transfer the total amount to our Bank Account.</p>
+        {/* --- CENTRAL BANK DETAILS CARD --- */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
+          {/* Bank Info Box */}
+          <div className="bg-white p-6 rounded-[2rem] border border-blue-50 shadow-sm text-left relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-4 opacity-5 text-blue-600 -rotate-12 group-hover:rotate-0 transition-transform">
+              <Landmark size={80} />
             </div>
-            
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
-              <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 02</span>
-              <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Take a Photo</p>
-              <p className="text-[11px] font-bold text-slate-900 leading-tight">Take a clear photo,pdf or screenshot of the Bank Slip.</p>
+            <span className="bg-blue-600 text-white text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-4 inline-block">Payment Destination</span>
+            <div className="space-y-1">
+              <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Commercial Bank</p>
+              <p className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter">8000XXXXXX</p>
+              <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Suma Automation | Colombo Fort</p>
             </div>
+          </div>
 
-            <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm relative">
-  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black px-3 py-1 rounded-full">STEP 03</span>
-  <p className="text-[9px] font-black uppercase text-slate-400 mb-2 mt-2">Send to Us</p>
-  <p className="text-[11px] font-bold text-slate-900 leading-tight">
-    Send your Bank Slip via <span className="text-green-600">WhatsApp</span> or 
-    Email to <span className="text-blue-600">sumaautomation@gmail.com</span>
+          {/* Submission Info Box */}
+         <div className="bg-blue-600 p-6 rounded-[2rem] shadow-lg shadow-blue-100 text-left flex flex-col justify-center">
+  <h4 className="text-white font-black uppercase italic tracking-widest text-sm mb-2 flex items-center gap-2">
+    <QrCode size={18} /> Final Step
+  </h4>
+  <p className="text-blue-50 text-[12px] font-bold leading-tight">
+    Please transfer the total amount and send your <span className="text-white underline underline-offset-4 font-black">Bank Slip, PDF or Screenshot</span> to us via:
   </p>
+  
+  <div className="mt-4 space-y-2">
+    <div className="flex items-center gap-2">
+      <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+      <p className="text-white text-[10px] font-black uppercase tracking-widest">WhatsApp: 076 218 3549</p>
+    </div>
+    <div className="flex items-center gap-2">
+      <div className="w-1.5 h-1.5 bg-blue-300 rounded-full"></div>
+      <p className="text-blue-100 text-[10px] font-black uppercase tracking-widest italic">Email: sumaautomation@gmail.com</p>
+    </div>
+  </div>
 </div>
+        </div>
 
-          </div>
+        {/* Action Buttons */}
+        <div className="flex flex-col md:flex-row gap-3 items-center justify-center mb-8">
+          <button 
+            onClick={sendWhatsApp}
+            className="w-full md:w-auto min-w-[260px] bg-[#25D366] text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-xl shadow-green-100/50"
+          >
+            <MessageCircle size={20} fill="currentColor" /> Submit via WhatsApp
+          </button>
+          
+          <button 
+            onClick={() => router.push("/account")}
+            className="w-full md:w-auto min-w-[260px] bg-slate-900 text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-lg shadow-slate-200"
+          >
+            <ShoppingBag size={18} /> Order History
+          </button>
+        </div>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-center">
-            <button 
-              onClick={sendWhatsApp}
-              className="w-full md:w-auto min-w-[240px] bg-[#25D366] text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-lg shadow-green-100"
-            >
-              <MessageCircle size={20} fill="currentColor" /> Submit via WhatsApp
-            </button>
-            
-            <button 
-              onClick={() => router.push("/account")}
-              className="w-full md:w-auto min-w-[240px] bg-slate-900 text-white py-5 px-8 rounded-2xl font-black uppercase text-[11px] tracking-widest flex items-center justify-center gap-3 hover:bg-blue-600 transition-all shadow-lg shadow-slate-200"
-            >
-              <ShoppingBag size={18} /> Order History
-            </button>
-          </div>
-
-          <p className="mt-10 text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-             <ShieldCheck size={14} className="text-blue-500"/> Our team will verify and ship your items within 24 hours.
-          </p>
+        <div className="pt-6 border-t border-slate-100">
+           <p className="text-[9px] text-slate-400 font-bold uppercase tracking-[0.2em] flex items-center justify-center gap-2 italic">
+              <ShieldCheck size={14} className="text-blue-500"/> Verification & shipping within 24 hours of slip submission.
+           </p>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   if (cart.length === 0) {
     return (
