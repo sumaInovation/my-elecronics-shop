@@ -83,10 +83,10 @@ export default function CheckoutPage() {
       <div className="fixed inset-0 z-[100] bg-white flex items-center justify-center p-4 md:p-10 overflow-y-auto">
         <div className="max-w-2xl w-full bg-slate-50 p-8 md:p-12 rounded-[3rem] border border-slate-100 text-center shadow-2xl">
           
-          {/* Success Header */}
-          <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100 animate-bounce-short">
-            <CheckCircle2 size={48} />
-          </div>
+        {/* Success Header - Mobile එකේදී Hide කරලා Laptop එකේදී විතරක් පෙන්වයි */}
+<div className="hidden md:flex w-24 h-24 bg-green-500 text-white rounded-full items-center justify-center mx-auto mb-6 shadow-xl shadow-green-100 animate-bounce-short">
+  <CheckCircle2 size={48} />
+</div>
           
           <h2 className="text-4xl md:text-5xl font-black uppercase italic tracking-tighter text-slate-900 mb-2">
             Order <span className="text-green-600">Confirmed!</span>

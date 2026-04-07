@@ -65,15 +65,7 @@ export default function AccountPage() {
             </h1>
           </div>
 
-          <div className="bg-white p-4 rounded-[2rem] border border-slate-100 flex items-center gap-4 pr-8">
-            <img src={session?.user?.image} alt="User" className="w-12 h-12 rounded-full border-2 border-blue-600" />
-            <div>
-              <p className="font-black text-xs uppercase italic tracking-tight">{session?.user?.name}</p>
-              <button onClick={() => signOut()} className="text-[9px] font-black uppercase text-red-500 flex items-center gap-1 hover:opacity-70 transition-all">
-                <LogOut size={10} /> Logout
-              </button>
-            </div>
-          </div>
+        
         </div>
 
         {/* Orders Section */}
